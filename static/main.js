@@ -1,5 +1,5 @@
 var NavBr = Vue.component('shownav', {
-    data: function () {
+    data: function() {
         return {}
     },
     template: `
@@ -14,12 +14,14 @@ var NavBr = Vue.component('shownav', {
 });
 
 var Form = Vue.component('display-form', {
-    data: function () {
+    data: function() {
         return {
+            showTable: false,
             form: {
                 twtId: '',
                 numOfTwts: 0
-            }
+            },
+            tweets: {}
         }
     },
     methods: {
@@ -40,6 +42,12 @@ var Form = Vue.component('display-form', {
                     console.log(response);
                     this.form.twtId = '';
                     this.form.numOfTwts = 0;
+                    this.tweets = response.data;
+                    console.log(tweets)
+
+                    if (response.status === 200) {
+                        this.showTable = true
+                    }
                 })
 
         }
@@ -67,6 +75,26 @@ var Form = Vue.component('display-form', {
             </div>
             <div class="col"></div>
         </div>
+
+        
+
+        <table class="table" v-show="showTable">
+            <thead>
+                <tr>
+                    <th scope="col">Twitter Id</th>
+                    <th scope="col">Tweet</th>
+                    <th scope="col">Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(twt, i) in tweets" :key="i">
+                    <td>{{twt.Tweets}}</td>
+                    <td>{{twt.Analysis}}</td>
+                    <td>{{twt.Polarity}}</td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 `
 })
