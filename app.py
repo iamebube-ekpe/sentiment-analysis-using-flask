@@ -3,7 +3,7 @@ from flask_restful import Api, reqparse
 from flask_cors import CORS
 import tweepy as twt
 from textblob import TextBlob
-from wordcloud import WordCloud
+# from wordcloud import WordCloud
 import pandas as pd
 import numpy as np
 import re
@@ -74,7 +74,7 @@ def analyzeSentiment(twtName, numTwts):
 
     df['Analysis'] = df['Polarity'].apply(getAnalysis)
 
-    df_dict = df.to_dict(orient='list')
+    df_dict = df.to_dict()
 
     return df_dict
 

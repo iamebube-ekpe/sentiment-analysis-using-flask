@@ -1,5 +1,5 @@
 var NavBr = Vue.component('shownav', {
-    data: function() {
+    data: function () {
         return {}
     },
     template: `
@@ -14,14 +14,15 @@ var NavBr = Vue.component('shownav', {
 });
 
 var Form = Vue.component('display-form', {
-    data: function() {
+    data: function () {
         return {
             showTable: false,
+            twtId: '',
             form: {
                 twtId: '',
                 numOfTwts: 0
             },
-            tweets: {}
+            tweets: []
         }
     },
     methods: {
@@ -40,17 +41,27 @@ var Form = Vue.component('display-form', {
             await axios.post('http://localhost:5000/api/analyze', this.form)
                 .then(response => {
                     console.log(response);
+                    this.twtId = this.form.twtId;
                     this.form.twtId = '';
                     this.form.numOfTwts = 0;
                     this.tweets = response.data;
-                    console.log(tweets)
+                    console.log(this.tweets)
 
                     if (response.status === 200) {
                         this.showTable = true
                     }
                 })
 
+        },
+        showTweets(twtSect) {
+            for (var i = 0; i < this.tweets[twtSect]; i++) {
+                console.log(this.tweets[twtSect][i])
+                return (this.tweets[twtSect][i])
+            }
         }
+    },
+    computed: {
+
     },
     template: `<div class="container-fluid">
         <div class="row">
@@ -81,16 +92,16 @@ var Form = Vue.component('display-form', {
         <table class="table" v-show="showTable">
             <thead>
                 <tr>
-                    <th scope="col">Twitter Id</th>
                     <th scope="col">Tweet</th>
                     <th scope="col">Sentiment</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(twt, i) in tweets" :key="i">
-                    <td>{{twt.Tweets}}</td>
-                    <td>{{twt.Analysis}}</td>
-                    <td>{{twt.Polarity}}</td>
+                <tr v-for="twt,i in tweets['Tweets']">
+                    <td>{{twt}}</td>
+                    <td>{{tweets['Analysis'][i]}}</td>
+                    <!-- <td v-for="analysis in tweets['Analysis']">{{analysis}}</td> -->
+                    <!-- <td v-for="i in tweets['Tweets']">{{i}}</td> -->
                 </tr>
             </tbody>
         </table>
