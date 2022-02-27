@@ -2,3 +2,5 @@ Login.csv
 .ipynb_checkpoints/
 text.txt
 __pycache__/
+hugging-face-sentiment-analysis.ipynb
+Twiter_Sentiment_Analysis.ipynb
